@@ -1,0 +1,43 @@
+{
+  "name": "pieces-slack-plus",
+  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/pieces/community/slack-plus/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/pieces/community/slack-plus",
+        "tsConfig": "packages/pieces/community/slack-plus/tsconfig.lib.json",
+        "packageJson": "packages/pieces/community/slack-plus/package.json",
+        "main": "packages/pieces/community/slack-plus/src/index.ts",
+        "assets": [
+          "packages/pieces/community/slack-plus/*.md"
+        ],
+        "buildableProjectDepsInPackageJsonType": "dependencies",
+        "updateBuildableProjectDepsInPackageJson": true
+      }
+    },
+    "publish": {
+      "command": "node tools/scripts/publish.mjs pieces-slack-plus {args.ver} {args.tag}",
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "packages/pieces/community/slack-plus/**/*.ts"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
