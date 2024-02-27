@@ -6,7 +6,7 @@ import { auth } from '../..';
 export const channel = Property.Dropdown({
   displayName: 'Channel',
   description: 'Channel, private group, or IM channel to send message to.',
-  required: true,
+  required: false,
   refreshers: [],
   async options({ auth }) {
     if (!auth) {
@@ -20,7 +20,7 @@ export const channel = Property.Dropdown({
     const authentication = auth as string;
     const request: HttpRequest = {
       method: HttpMethod.GET,
-      url: `https://slack.com/api/conversations.list?types=public_channel,private_channel&limit=1000`,
+      url: `https://slack.com/api/conversations.list?types=public_channel,private_channel,mpim,im&exclude_archived=true&limit=1000`,
       authentication: {
         type: AuthenticationType.BEARER_TOKEN,
         token: authentication
@@ -43,7 +43,7 @@ export const channel = Property.Dropdown({
     return {
       disabled: false,
       placeholder: 'Select channel',
-      options: response.body.channels.map((ch) => {
+      options: response.body.channels.filter(ch => ch.name).map((ch) => {
         return {
           label: ch.name,
           value: ch.id,
@@ -59,12 +59,12 @@ export const postMessage = createAction({
   description: '',
   auth,
   props: {
-    // channel: Property.ShortText({
-    //   required:  true,
-    //   displayName: 'Channel',
-    //   description: 'Channel, private group, or IM channel to send message to.'
-    // }),
     channel,
+    channel_id: Property.ShortText({
+      required:  false,
+      displayName: 'or Channel ID',
+      description: 'or enter a custom channel ID'
+    }),
     username: Property.ShortText({
       required:  false,
       displayName: 'Username',
@@ -99,7 +99,7 @@ export const postMessage = createAction({
   },
   async run({ propsValue, auth }) {
     const body: any = {
-      channel: propsValue.channel,
+      channel: propsValue.channel || propsValue.channel_id,
       text: propsValue.text
     };
 
