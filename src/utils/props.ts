@@ -5,6 +5,7 @@ export const user = Property.Dropdown({
   displayName: 'Users',
   description: 'Select the user.',
   refreshers: [],
+  required: false,
   async options({ auth }) {
     if (!auth) {
       return {
