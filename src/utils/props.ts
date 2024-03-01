@@ -4,7 +4,6 @@ import { Property } from "@activepieces/pieces-framework";
 export const user = Property.Dropdown({
   displayName: 'Users',
   description: 'Select the user.',
-  required: true,
   refreshers: [],
   async options({ auth }) {
     if (!auth) {
