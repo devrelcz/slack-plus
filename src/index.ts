@@ -1,6 +1,7 @@
 import { createPiece, PieceAuth } from '@activepieces/pieces-framework';
 
 import { postMessage } from './lib/actions/post-message';
+import { postFile } from './lib/actions/post-file';
 import { updateHomepage } from './lib/actions/update-homepage';
 import { PieceCategory } from '@activepieces/shared';
 import { createCustomApiCallAction } from '@activepieces/pieces-common';
@@ -23,6 +24,7 @@ export const slackPostMessage = createPiece({
   ],
   actions: [
     postMessage,
+    postFile,
     updateHomepage,
     createCustomApiCallAction({
       baseUrl: () => {
