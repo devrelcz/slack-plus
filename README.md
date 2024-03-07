@@ -1,4 +1,4 @@
-# pieces-slack-post-message
+# pieces-slack-plus
 
 It enhances the work with Slack. You can set a custom token (great for bots).
 
